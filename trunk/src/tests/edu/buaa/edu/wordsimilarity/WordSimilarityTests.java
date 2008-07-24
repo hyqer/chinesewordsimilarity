@@ -29,10 +29,10 @@ public class WordSimilarityTests extends TestCase {
         System.out.println("雇用 and 争斗 sim : "+ simP);
     }
     public void test_simWord(){
-        String word1 = "牛";
-        String word2 = "猪";
+        String word1 = "我";
+        String word2 = "我";
         double sim = WordSimilarity.simWord(word2, word1);
-        System.out.println(sim);
+        System.out.println(word1.equals(sim));
     }
     
 }
