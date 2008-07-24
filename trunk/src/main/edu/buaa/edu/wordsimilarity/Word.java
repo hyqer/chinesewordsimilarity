@@ -52,19 +52,20 @@ public class Word {
     public String getWord() {
         return word;
     }
+
     /**
      * ÊÇ·ñÎªÐé´Ê
+     *
      * @return
      */
-    public boolean isStructruralWord(){
+    public boolean isStructruralWord() {
         return !structruralWords.isEmpty();
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param word
-     *            DOCUMENT ME!
+     * @param word DOCUMENT ME!
      */
     public void setWord(String word) {
         this.word = word;
@@ -82,8 +83,7 @@ public class Word {
     /**
      * DOCUMENT ME!
      *
-     * @param type
-     *            DOCUMENT ME!
+     * @param type DOCUMENT ME!
      */
     public void setType(String type) {
         this.type = type;
@@ -101,8 +101,7 @@ public class Word {
     /**
      * DOCUMENT ME!
      *
-     * @param firstPrimitive
-     *            DOCUMENT ME!
+     * @param firstPrimitive DOCUMENT ME!
      */
     public void setFirstPrimitive(String firstPrimitive) {
         this.firstPrimitive = firstPrimitive;
@@ -114,24 +113,22 @@ public class Word {
      * @return DOCUMENT ME!
      */
     public List<String> getOtherPrimitives() {
-        return otherPrimitives;
+        return new ArrayList<String>(otherPrimitives);
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param otherPrimitives
-     *            DOCUMENT ME!
+     * @param otherPrimitives DOCUMENT ME!
      */
     public void setOtherPrimitives(List<String> otherPrimitives) {
-        this.otherPrimitives = otherPrimitives;
+        this.otherPrimitives = new ArrayList<String>(otherPrimitives);
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param otherPrimitive
-     *            DOCUMENT ME!
+     * @param otherPrimitive DOCUMENT ME!
      */
     public void addOtherPrimitive(String otherPrimitive) {
         this.otherPrimitives.add(otherPrimitive);
@@ -143,24 +140,22 @@ public class Word {
      * @return DOCUMENT ME!
      */
     public List<String> getStructruralWords() {
-        return structruralWords;
+        return new ArrayList<String>(structruralWords);
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param structruralWords
-     *            DOCUMENT ME!
+     * @param structruralWords DOCUMENT ME!
      */
     public void setStructruralWords(List<String> structruralWords) {
-        this.structruralWords = structruralWords;
+        this.structruralWords = new ArrayList<String>(structruralWords);
     }
 
     /**
      * DOCUMENT ME!
      *
-     * @param structruralWord
-     *            DOCUMENT ME!
+     * @param structruralWord DOCUMENT ME!
      */
     public void addStructruralWord(String structruralWord) {
         this.structruralWords.add(structruralWord);
@@ -183,7 +178,14 @@ public class Word {
             list.add(value);
         }
     }
-    public void addRelationSimbolPrimitive(String key,String value){
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @param key DOCUMENT ME!
+     * @param value DOCUMENT ME!
+     */
+    public void addRelationSimbolPrimitive(String key, String value) {
         List<String> list = relationSimbolPrimitives.get(key);
 
         if (list == null) {
@@ -194,10 +196,22 @@ public class Word {
             list.add(value);
         }
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     public Map<String, List<String>> getRelationalPrimitives() {
-        return relationalPrimitives;
+        return new HashMap<String, List<String>>(relationalPrimitives);
     }
+
+    /**
+     * DOCUMENT ME!
+     *
+     * @return DOCUMENT ME!
+     */
     public Map<String, List<String>> getRelationSimbolPrimitives() {
-        return relationSimbolPrimitives;
+        return new HashMap<String, List<String>>(relationSimbolPrimitives);
     }
 }
