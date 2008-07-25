@@ -320,8 +320,9 @@ public class WordSimilarity {
         int count = 0;
         for (String key : map1.keySet()) {
             if (map2.containsKey(key)) {
-                List<String> list1 = map1.get(key);
-                List<String> list2 = map2.get(key);
+                //shallow copy
+                List<String> list1 = new ArrayList<String>(map1.get(key));
+                List<String> list2 = new ArrayList<String>(map2.get(key));
                 sim += simList(list1, list2);
                 count++;
             }
