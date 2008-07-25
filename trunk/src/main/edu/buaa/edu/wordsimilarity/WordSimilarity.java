@@ -14,15 +14,25 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 该类为此项目的主要文件，提供计算词语相似度的一些基本公式，都为静态。
- * 此类线程安全，可以多线程调用。
- * 具体算法参考论文： 《基于＜知网＞的词汇语义相似度计算》论文.pdf
+ * 该类为此项目的主要文件，提供计算词语相似度的一些基本公式，都为静态。 此类线程安全，可以多线程调用。 具体算法参考论文： 《基于＜知网＞的词汇语义相似度计算》论文.pdf
+ * 
  * @author Yingqiang Wu
  * @version 1.0
  */
 public class WordSimilarity {
-    // 词库中所有的具体词，或者义原
+    /**
+     * 词库中所有的具体词，或者义原,知网中定义的词语
+     */
     private static Map<String, List<Word>> ALLWORDS = new HashMap<String, List<Word>>();
+    /**
+     * 哈工大同义词林中的所有词语。key类别号，value是这个类别下的所有词语组成的list；
+     * list中的所有词都为同义词或者相关的词语。
+     */
+    private static Map<String, List<Word>> CILIN = new HashMap<String, List<Word>>();
+    /**
+     * 哈工大同义词林中的所有词语。key为词语，value为类别号
+     */
+    private static Map<String, String> ALLWORDS_IN_CILIN = new HashMap<String, String>();
     /**
      * sim(p1,p2) = alpha/(d+alpha)
      */
@@ -73,9 +83,18 @@ public class WordSimilarity {
     static {
         loadGlossary();
     }
+    public static void loadCiLin(){
+        String line = null;
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("dict/哈工大信息检索研究室同义词词林扩展版.txt"));
+        }catch(Exception e){
+            
+        }
+    }
 
     /**
-     * 加载 glossay.dat 文件
+     * 加载 glossay.dat 文件（知网）
      */
     public static void loadGlossary() {
         String line = null;
@@ -250,12 +269,15 @@ public class WordSimilarity {
             }
             return max;
         }
-        System.out.println("其中有词没有被收录");
+        // 如果知网中没有收录的词语，使用同义词词林来计算词语的相似度
+
+        System.out.println("其中有词没有被收录: " + word1 + "  " + word2);
         return 0.0;
     }
 
     /**
      * 计算两个词语的相似度
+     * 
      * @param w1
      * @param w2
      * @return
@@ -315,20 +337,19 @@ public class WordSimilarity {
         if (map1.isEmpty() && map2.isEmpty()) {
             return 1;
         }
-        int total =map1.size() + map2.size();
+        int total = map1.size() + map2.size();
         double sim = 0;
         int count = 0;
         for (String key : map1.keySet()) {
             if (map2.containsKey(key)) {
-                //shallow copy
+                // shallow copy
                 List<String> list1 = new ArrayList<String>(map1.get(key));
                 List<String> list2 = new ArrayList<String>(map2.get(key));
                 sim += simList(list1, list2);
                 count++;
             }
         }
-        return (sim + delta * (total-2*count))
-                / (total-count);
+        return (sim + delta * (total - 2 * count)) / (total - count);
     }
 
     /**
