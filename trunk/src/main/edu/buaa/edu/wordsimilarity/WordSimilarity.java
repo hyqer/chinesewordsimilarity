@@ -306,8 +306,8 @@ public class WordSimilarity {
         double sim1 = simWordHowNet(word1,word2);
         
         double sim2 = simWordCiLin(word1, word2);
-        System.out.println("sim1: "+sim1);
-        System.out.println("sim2: "+sim2);
+        //System.out.println("sim1: "+sim1);
+        //System.out.println("sim2: "+sim2);
         // 如果知网中没有收录的词语，使用同义词词林来计算词语的相似度
         if(sim1!=0.0 && sim2!=0.0){
             return sim1*0.4+sim2*0.6;
