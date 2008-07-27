@@ -11,28 +11,35 @@ import junit.framework.TestCase;
  *
  * @author Yingqiang Wu
  * @version 1.0
-  */
+ */
 public class WordSimilarityTests extends TestCase {
-    public void test_loadGlossary(){
-        WordSimilarity.loadGlossary();
-    }
     /**
      * test the method {@link WordSimilarity#disPrimitive(String, String)}.
      */
-    public void test_disPrimitive(){
+    public void test_disPrimitive() {
         int dis = WordSimilarity.disPrimitive("雇用", "争斗");
-        System.out.println("雇用 and 争斗 dis : "+ dis);
+        System.out.println("雇用 and 争斗 dis : " + dis);
     }
-    
-    public void test_simPrimitive(){
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void test_simPrimitive() {
         double simP = WordSimilarity.simPrimitive("雇用", "争斗");
-        System.out.println("雇用 and 争斗 sim : "+ simP);
+        System.out.println("雇用 and 争斗 sim : " + simP);
     }
-    public void test_simWord(){
-        String word1 = "我";
-        String word2 = "我";
+
+    /**
+     * DOCUMENT ME!
+     */
+    public void test_simWord() {
+        String word1 = "牛脾气";
+        String word2 = "老脾气";
         double sim = WordSimilarity.simWord(word2, word1);
-        System.out.println(word1.equals(sim));
+        System.out.println(word1 + " " + word2 + " sim = " + sim);
+         word1 = "别号";
+         word2 = "老脾气";
+         sim = WordSimilarity.simWord(word2, word1);
+        System.out.println(word1 + " " + word2 + " sim = " + sim);
     }
-    
 }
