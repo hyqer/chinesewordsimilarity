@@ -41,5 +41,9 @@ public class WordSimilarityTests extends TestCase {
          word2 = "老脾气";
          sim = WordSimilarity.simWord(word2, word1);
         System.out.println(word1 + " " + word2 + " sim = " + sim);
+        word1 = "中国";
+        word2 = "中华民国";
+        sim = WordSimilarity.simWord(word2, word1);
+       System.out.println(word1 + " " + word2 + " sim = " + sim);
     }
 }
