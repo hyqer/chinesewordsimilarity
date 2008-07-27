@@ -5,11 +5,14 @@ package edu.buaa.edu.wordsimilarity;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * “Â‘≠
@@ -18,6 +21,7 @@ import java.util.Map;
  * @version 1.0
  */
 public class Primitive {
+    private static Logger logger = WordSimilarity.getLogger();
     /**
      * DOCUMENT ME!
      */
@@ -32,10 +36,12 @@ public class Primitive {
      */
     static {
         String line = null;
-
+        BufferedReader reader = null;
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(
+            reader = new BufferedReader(new FileReader(
                     "dict/WHOLE.DAT"));
+            logger.log(Level.INFO,
+            "start to load the file dict/WHOLE.DAT");
             line = reader.readLine();
 
             while (line != null) {
@@ -54,10 +60,25 @@ public class Primitive {
                 // System.out.println("add: " + primitive + " " + id + " " + parentId);
                 line = reader.readLine();
             }
+            logger.log(Level.INFO,
+            "finished loading the file dict/WHOLE.DAT");
         } catch (Exception e) {
+            logger.log(Level.SEVERE,
+                    "Failed to load the file dict/WHOLE.DAT, "
+                            + e.getMessage());
             // TODO Auto-generated catch block
             System.out.println(line);
             e.printStackTrace();
+        }finally{
+             try {
+                reader.close();
+            } catch (IOException e) {
+                logger.log(Level.SEVERE,
+                        "Failed to load the file dict/WHOLE.DAT, "
+                                + e.getMessage());
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 
