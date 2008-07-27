@@ -303,6 +303,22 @@ public class WordSimilarity {
      * 计算两个词语的相似度
      */
     public static double simWord(String word1, String word2) {
+        double sim1 = simWordHowNet(word1,word2);
+        
+        double sim2 = simWordCiLin(word1, word2);
+        System.out.println("sim1: "+sim1);
+        System.out.println("sim2: "+sim2);
+        // 如果知网中没有收录的词语，使用同义词词林来计算词语的相似度
+        if(sim1!=0.0 && sim2!=0.0){
+            return sim1*0.4+sim2*0.6;
+        }
+        if(sim1==0.0){
+            return sim2;
+        }else{
+            return sim1;
+        }
+    }
+    public static double simWordHowNet(String word1,String word2){
         if (ALLWORDS.containsKey(word1) && ALLWORDS.containsKey(word2)) {
             List<Word> list1 = ALLWORDS.get(word1);
             List<Word> list2 = ALLWORDS.get(word2);
@@ -315,14 +331,13 @@ public class WordSimilarity {
             }
             return max;
         }
-        // 如果知网中没有收录的词语，使用同义词词林来计算词语的相似度
         if(!ALLWORDS.containsKey(word1)){
             logger.log(Level.WARNING, word1+"没有被知网中收录");
         }
         if(!ALLWORDS.containsKey(word2)){
             logger.log(Level.WARNING, word2+"没有被知网中收录");
         }
-        return simWordCiLin(word1, word2);
+        return 0.0;
     }
     /**
      * caculate the word similarity using CiLin.
