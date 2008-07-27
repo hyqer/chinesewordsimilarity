@@ -332,7 +332,7 @@ public class WordSimilarity {
      */
     public static double simWordCiLin(String word1,String word2){
         if(ALLWORDS_IN_CILIN.containsKey(word1)&&ALLWORDS_IN_CILIN.containsKey(word2)){
-            logger.log(Level.WARNING, "use cilin to calulate the word similarity");
+            logger.log(Level.INFO, "use cilin to calulate the word similarity");
             String category1 = ALLWORDS_IN_CILIN.get(word1);
             String category2 = ALLWORDS_IN_CILIN.get(word2);
             return simCategory(category1,category2);
