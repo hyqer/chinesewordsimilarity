@@ -306,17 +306,19 @@ public class WordSimilarity {
         double sim1 = simWordHowNet(word1,word2);
         
         double sim2 = simWordCiLin(word1, word2);
-        //System.out.println("sim1: "+sim1);
-        //System.out.println("sim2: "+sim2);
+        //System.out.println("how net sim1: "+sim1);
+        //System.out.println("ci line sim2: "+sim2);
         // 如果知网中没有收录的词语，使用同义词词林来计算词语的相似度
-        if(sim1!=0.0 && sim2!=0.0){
-            return sim1*0.4+sim2*0.6;
-        }
-        if(sim1==0.0){
-            return sim2;
-        }else{
-            return sim1;
-        }
+//        if(sim1!=0.0 && sim2!=0.0){
+//            return sim1*0.4+sim2*0.6;
+//        }
+//        if(sim1==0.0){
+//            return sim2;
+//        }else{
+//            return sim1;
+//        }
+        //取两者值较大者, 2008-11-15
+        return sim1>sim2 ? sim1 : sim2; 
     }
     public static double simWordHowNet(String word1,String word2){
         if (ALLWORDS.containsKey(word1) && ALLWORDS.containsKey(word2)) {
@@ -384,21 +386,30 @@ public class WordSimilarity {
         String small2 = category2.substring(2,4);
         String wordGroup2 = category2.substring(4,5);
         String UnitWordGroup2 = category2.substring(5,7);
+        //d 为语义距离,使用1/d
+      //  int d = 0;
+       // int a = 2.5; //
         if(!big1.equals(big2)){
             //默认使用最远距离
-            return 0;
+            return 0.1;
+            //d=10;
+           // return 
         }
         if(!middle1.equals(middle2)){
-            return 0.2;
+            //d = 8
+            return 0.125;
         }
         if(!small1.equals(small2)){
-            return 0.4;
+            //d=6
+            return 0.1667;
         }
         if(!wordGroup1.equals(wordGroup2)){
-            return 0.6;
+            //4
+            return 0.25;
         }
         if(!UnitWordGroup1.equals(UnitWordGroup2)){
-            return 0.8;
+            //2
+            return 0.5;
         }
         return 1;
     }
@@ -495,26 +506,63 @@ public class WordSimilarity {
         int big = m > n ? m : n;
         int N = (m < n) ? m : n;
         int count = 0;
-        int index1 = 0, index2 = 0;
+        //int index1 = 0, index2 = 0;
         double sum = 0;
         double max = 0;
-        while (count < N) {
+        //先两两计算
+        Map<String,Double> map = new HashMap<String, Double>();
+        for (int i = 0; i < list1.size(); i++) {
+            for (int j = 0; j < list2.size(); j++) {
+                double sim = innerSimWord(list1.get(i), list2.get(j));
+                map.put(i+"#"+j, sim);
+            }
+        }
+        while(count < N){
             max = 0;
-            for (int i = 0; i < list1.size(); i++) {
-                for (int j = 0; j < list2.size(); j++) {
-                    double sim = innerSimWord(list1.get(i), list2.get(j));
-                    if (sim > max) {
-                        index1 = i;
-                        index2 = j;
-                        max = sim;
-                    }
+            String index = "";
+            for(String key : map.keySet()){
+                double sim = map.get(key);
+                if(sim >= max){
+                    max = sim;
+                    index = key;
                 }
             }
             sum += max;
-            list1.remove(index1);
-            list2.remove(index2);
+            //remove the useless value in the temp map.
+            map.remove(index);
+            int sharp_index=index.indexOf('#');
+//            if(sharp_index==-1){
+//                System.out.println(list1);
+//                System.out.println(list2);
+//            }
+            String str1 = index.substring(0,sharp_index);
+            String str2 = index.substring(sharp_index+1);
+            Set<String> keys = new HashSet<String>(map.keySet());
+            for(String key : keys){
+                if(key.startsWith(str1+'#')||key.endsWith('#'+str2)){
+                    map.remove(key);
+                }
+            }
             count++;
         }
+        
+//        while (count < N) {
+//            max = 0;
+//            for (int i = 0; i < list1.size(); i++) {
+//                for (int j = 0; j < list2.size(); j++) {
+//                    double sim = innerSimWord(list1.get(i), list2.get(j));
+//                    if (sim > max) {
+//                        index1 = i;
+//                        index2 = j;
+//                        max = sim;
+//                    }
+//                }
+//            }
+//            sum += max;
+//            list1.remove(index1);
+//            list2.remove(index2);
+//            count++;
+//        }
         return (sum + delta * (big - N)) / big;
     }
 
