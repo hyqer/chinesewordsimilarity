@@ -3,7 +3,8 @@
  */
 package edu.buaa.edu.wordsimilarity;
 
-public enum WordType {PREFIX,
+public enum WordType {
+    PREFIX,
     PREP,
     ECHO,
     EXPR,
