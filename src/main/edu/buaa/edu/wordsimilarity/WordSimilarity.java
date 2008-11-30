@@ -25,15 +25,15 @@ public class WordSimilarity {
     /**
      * 词库中所有的具体词，或者义原,知网中定义的词语
      */
-    private static Map<String, List<Word>> ALLWORDS = new HashMap<String, List<Word>>();
+    public static Map<String, List<Word>> ALLWORDS = new HashMap<String, List<Word>>();
     /**
      * 哈工大同义词林中的所有词语。key类别号，value是这个类别下的所有词语组成的list； list中的所有词都为同义词或者相关的词语。
      */
-    private static Map<String, List<String>> CILIN = new HashMap<String, List<String>>();
+    public static Map<String, List<String>> CILIN = new HashMap<String, List<String>>();
     /**
      * 哈工大同义词林中的所有词语。key为词语，value为类别号
      */
-    private static Map<String, String> ALLWORDS_IN_CILIN = new HashMap<String, String>();
+    public static Map<String, String> ALLWORDS_IN_CILIN = new HashMap<String, String>();
     /**
      * sim(p1,p2) = alpha/(d+alpha)
      */
@@ -342,6 +342,38 @@ public class WordSimilarity {
         return 0.0;
     }
     /**
+     * 使用知网获得一个词于的所有相关概念。
+     * @param word
+     * @return
+     */
+    public static List<String> getReletiveWords(String word){
+        List<String> list = new ArrayList<String>();
+        if(ALLWORDS.containsKey(word)){
+            List<Word> list1 = ALLWORDS.get(word);
+            for(int i=0;i<list1.size();i++){
+                list.add(list1.get(i).getWord());
+            }
+        }
+        return list;
+    }
+    /**
+     * 使用同义词词林获得这个词的近义词
+     * @param word
+     * @return
+     */
+    public static List<String> getSynonym(String word){
+        List<String> list = new ArrayList<String>();
+        if(ALLWORDS_IN_CILIN.containsKey(word)){
+            List<String> list1 = CILIN.get(ALLWORDS_IN_CILIN.get(word));
+            for(String w : list1){
+                if(!w.equals(word)){
+                    list.add(w);
+                }
+            }
+        }
+        return list;
+    }
+    /**
      * caculate the word similarity using CiLin.
      * @param word1
      * @param word2
@@ -362,6 +394,7 @@ public class WordSimilarity {
         }
         return 0.0;
     }
+    
     /**
      * 计算两个类别直接的距离，在词林中，我们将词语的相似度，等同于词语所属类别的相似度.<br/>
      * category：Aa01B03#<br/>
