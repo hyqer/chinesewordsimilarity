@@ -3,7 +3,7 @@
  */
 package edu.buaa.sklsde.wordsimilarity;
 
-import edu.buaa.edu.wordsimilarity.WordSimilarity;
+import edu.buaa.sklsde.wordsimilarity.WordSimilarity;
 import junit.framework.TestCase;
 
 
