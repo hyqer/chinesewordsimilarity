@@ -5,7 +5,7 @@ package edu.buaa.sklsde.wordsimilarity;
 
 import java.util.List;
 
-import edu.buaa.edu.wordsimilarity.Primitive;
+import edu.buaa.sklsde.wordsimilarity.Primitive;
 
 import junit.framework.TestCase;
 
